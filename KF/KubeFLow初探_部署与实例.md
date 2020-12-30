@@ -6,7 +6,7 @@
 
 KF与k8s版本兼容性问题：
 
-![img](E:\GitCode\technical-support\assets\KF\clip_image002.jpg)
+![avatar](..\assets\KF\clip_image002.jpg)
 
 当前k8s 1.18，应该安装最高版本
 
@@ -66,79 +66,79 @@ A data scientist starts from a Notebook, builds the pipeline, and uses Rok to ta
 
 1.Create Notebook Servers
 
-![3](E:\GitCode\technical-support\KF\3.jpg)
+![avatar](..\assets\KF\3.jpg)
 
 2. Bring in the Pipelines code and data
 
-![img](E:\GitCode\technical-support\assets\KF\clip_image004.jpg)
+![avatar](..\assets\KF\clip_image004.jpg)
 
 3. Snapshot the Data Volume
 
 用来存放原始数据，方便回滚，以及多次执行等操作。
 
-![Image for post](E:\GitCode\technical-support\assets\KF\clip_image006.jpg)
+![avatar](..\assets\KF\clip_image006.jpg)
 
 4. Upload the Pipeline to KFP
 
 把已有的管道文件下载下来然后新建一个Pipeline
 
-![Image for post](E:\GitCode\technical-support\assets\KF\clip_image008.jpg)
+![avatar](..\assets\KF\clip_image008.jpg)
 
-![Image for post](E:\GitCode\technical-support\assets\KF\clip_image010.jpg)
+![avatar](..\assets\KF\clip_image010.jpg)
 
 5.Create a new Experiment Run
 
 在上传pipeline之后得到一个执行流图，创建新的experiment（也就是一个AI实例，KF里面统称为experiment）。
 
-![Image for post](E:\GitCode\technical-support\assets\KF\clip_image012.jpg)
+![avatar](..\assets\KF\clip_image012.jpg)
 
 需要建立pipeline和数据块存储的联系
 
-![Image for post](E:\GitCode\technical-support\assets\KF\clip_image014.jpg)
+![avatar](..\assets\KF\clip_image014.jpg)
 
 Pipeline 执行的快照
 
-![Image for post](E:\GitCode\technical-support\assets\KF\clip_image016.jpg)
+![avatar](..\assets\KF\clip_image016.jpg)
 
 6.Run a Pipeline
 
 运行pipeline执行，执行过程中可以通过点击流图查看实时运行的log，有问题解决之后，会自动重试。（在此过程中遇到的docker pull策略问题之后再解决）
 
-![img](E:\GitCode\technical-support\assets\KF\clip_image018.jpg)
+![avatar](..\assets\KF\clip_image018.jpg)
 
 7. Pipeline snapshot with Rok
 
 Rok将自动为管道拍摄快照，以便我们以后可以将其附加到Notebook上并进一步研究管道结果。
 
-![Image for post](E:\GitCode\technical-support\assets\KF\clip_image020.jpg)
+![avatar](..\assets\KF\clip_image020.jpg)
 
 所有pipeline组件完成的信息都在这里面
 
-![Image for post](E:\GitCode\technical-support\assets\KF\clip_image022.jpg)
+![avatar](..\assets\KF\clip_image022.jpg)
 
 8. Explore pipeline results inside a Notebook
 
 为了研究pipeline结果，我们可以创建一个新的Notebook并将其附加到管道快照中。Notebook将使用此不可变快照的副本。这意味着可以使用此数据量进行进一步的探索和试验，而不会丢失管道运行产生的结果。
 
-![img](E:\GitCode\technical-support\assets\KF\clip_image024.jpg)
+![avatar](..\assets\KF\clip_image024.jpg)
 
-![图片发布](E:\GitCode\technical-support\assets\KF\clip_image026.jpg)
+![avatar](..\assets\KF\clip_image026.jpg)
 
 添加卷，选择existing：
 
-![图片发布](E:\GitCode\technical-support\assets\KF\clip_image028.jpg)
+![avatar](..\assets\KF\clip_image028.jpg)
 
 并在Rok中选择上述的pipeline-snapshot
 
  
 
-![图片发布](E:\GitCode\technical-support\assets\KF\clip_image030.jpg)
+![avatar](..\assets\KF\clip_image030.jpg)
 
 然后打开Jupyter服务器，管道“ taxi-cab-classification”的输入数据和管道“ taxi-cab-classification-s9qwx”的输出数据，其中可以看到每一步的输出结果
 
-![图片发布](E:\GitCode\technical-support\assets\KF\clip_image032.jpg)
+![avatar](..\assets\KF\clip_image032.jpg)
 
-![Image for post](E:\GitCode\technical-support\assets\KF\clip_image034.jpg)
+![avatar](..\assets\KF\clip_image034.jpg)
 
 具体案例网址：
 
