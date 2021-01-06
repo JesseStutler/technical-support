@@ -18,13 +18,13 @@ Operator就是这两者结合使用的例子，允许我们将特殊应用编码
 
 ### TFJob创建流程图：
 
-!["image"](..\assets\KF\KFOp1.jpg)
+!["image"](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFOp1.jpg?raw=true)
 
 ### TFJob对象：
 
 apiVersion、kind、metadata、spec。其中tfReplicaSpecs为spec字段的数据类型，也是最重要的。
 
-![img](..\assets\KF\KFOp2.jpg)
+![img](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFOp2.jpg?raw=true)
 
 在k8s中用kubectl get crd tfjobs.kubeflow.org -o yaml 查看TFJob CRD的定义如下：
 
@@ -143,7 +143,7 @@ kubectl -n kubeflow logs \`kubectl get pods --selector=name=tf-job-operator -o j
 
 pip install kubeflow-tfjob
 
-![img](..\assets\KF\KFOp3.jpg)
+![img](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFOp3.jpg?raw=true)
 
 详细API用法见https://github.com/kubeflow/tf-operator
 
