@@ -2,13 +2,13 @@
 
 Pipeline 实现了一个工作流模型，所谓工作流或者称之为流水线(pipeline), 可以将其当做一个有向无环图（DAG）。
 
-![img](..\assets\KF\pipeline1.jpg)
+![img](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/pipeline1.jpg?raw=true)
 
 如图中，每一个节点在KLP(KubeFlow Pipeline)中被称为一个组件(component), 其会处理真正的逻辑，比如预处理，数据清洗，模型训练等等。每一个组件负责的功能不同，但有一个共同点，即组件都是以 Docker 镜像的方式被打包，以容器的方式被运行的。
 
 实验（experiment）是一个工作空间，在其中可以针对流水线尝试不同的配置。运行（run）是流水线的一次执行，用户在执行的过程中可以看到**每一步**的**输出文件**，以及**日志**。步（step）是组件的一次运行，**步与组件**的关系就像是**运行与流水线**的关系一样。步输出工件（step output artifacts）是在组件的一次运行结束后输出的，能被系统的前端理解并渲染可视化的文件。
 
-![img](E:\GitCode\technical-support\KF\pipeline2.jpg)
+![img](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/pipeline2.jpg?raw=true)
 
 需要自己定义，然后一般是针对在训练或者引用过程中的输出才有ROC曲线。
 
@@ -120,6 +120,6 @@ Python SDK 负责构造出流水线，并且根据流水线构造出 ScheduledWo
 
 Persistence agent 负责把数据从 Kubernetes Master 的 etcd 中同步到后端服务的关系型数据库中，其实现的方式与 CRD operator 类似，通过 informer 来监听 Kubernetes apiserver 对应资源实现。
 
-![img](E:\GitCode\technical-support\KF\pipeline3.jpg)
+![img](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/pipeline3.jpg?raw=true)
 
 具体操作使用的时候再查看源码，还要涉及到DSL，等一些其他，要用主要就是看SDK的函数接口。
