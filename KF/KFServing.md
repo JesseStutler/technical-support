@@ -4,7 +4,7 @@
 
 KFServing的架构如下图所示。
 
-![img](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFS0.png?raw=true)
+![img](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFS0.jpg?raw=true)
 
 它解决的问题主要是两个：
 
@@ -18,17 +18,17 @@ KFServing目前对主流的ML框架（TF、PyTorch、XGBoost等）提供高性�
 
 首先是Service Mesh, 一种分布式的微服务代理，如Sidecar模式，主要是Data Plane 和 Control Plane。前者负责网格内服务的通信，实现功能，后者管理和配置Sidecar容器。有种SDN的感觉。
 
-![KFS1](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFS1.png?raw=true)
+![KFS1](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFS1.jpg?raw=true)
 
 基于此架构，Istio的架构如下，具体就不介绍了，知道KFServing中底层的实现依赖即可。KF的所有服务都是以Istio的形式在跑的。
 
-![KFS2](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFS2.png?raw=true)
+![KFS2](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFS2.jpg?raw=true)
 
 ## Knative
 
 一套无服务架构方案。基于K8s和Istio实现蓝绿发布、回滚功能，监控应用请求，自动扩容和缩容，自动启动和销毁容器，根据名字生成网络访问相关的Service、Ingress等对象。Knative Serving就是KF Serving的核心。
 
-![image-20210106153532761](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFS3.png?raw=true)
+![image-20210106153532761](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFS3.jpg?raw=true)
 
 ## KFServing架构分析
 
@@ -36,7 +36,7 @@ KFServing的架构包括两部分，分别是Data Plane 和 Control Plane。 Con
 
 KFServing的整体架构如图8所示。在图中主要有3个组件，最外层的是K8s集群组件，包含K8s 集群的负载均衡器。在模型在K8s 集群中发布服务后，用户的预测请求首先被K8s 集群组件接收，在K8s 集群级别进行负载均衡(这一步是K8s自身行为，是可选的)。
 
-![image-20210106154957092](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFS4.png?raw=true)
+![image-20210106154957092](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFS4.jpg?raw=true)
 
 在Inference Service发布成功后，客户端可以发送一个预测请求，预测的工作流程大致如下：
 
@@ -56,7 +56,7 @@ Orchestrator 会对请求进行编排处理，在进行预测前，需要预先�
 
 其中KFServing Control Plane中的InfereceService字段如下表：
 
-![image-20210106155617630](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFS5.png?raw=true)
+![image-20210106155617630](https://github.com/JesseStutler/technical-support/blob/master/assets/KF/KFS5.jpg?raw=true)
 
 一个InferenceService的实例：
 
