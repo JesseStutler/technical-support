@@ -83,3 +83,5 @@
 `Project` 中点新建，如果是一个镜像缓存项目，需要开启 `Proxy Cache`
 
 ![IzmSgsTDCZhKPNH](https://i.loli.net/2021/01/10/IzmSgsTDCZhKPNH.png)
+
+更多使用还需探索。
