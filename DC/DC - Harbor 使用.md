@@ -23,7 +23,7 @@
 + 登陆 harbor : 
 
 	```bash
-	$ docker login docker login 10.2.0.46
+	$ docker login 10.1.0.46
 	```
 
 	按分配的账号密码登录。
@@ -33,7 +33,7 @@
 	harbor 已配置好 `Docker Hub` 的 proxy cache ，需要拉取 `Docker Hub` 中的镜像，需要按照如下格式
 
 	```bash
-	$ docker pull 10.2.0.46/dockerhub/<IMAGE_NAME>:<VERSION>
+	$ docker pull 10.1.0.46/dockerhub/<IMAGE_NAME>:<VERSION>
 	```
 
 	`<>` 中的内容请自行替换。
@@ -60,6 +60,9 @@
 + 修改 `harbor.yml` 中的 `hostname` 与 `harbor_admin_password`
 + 执行 `./install.sh`  （修改配置后，直接执行 `./prepare` 即可)
 
+> 重配置 harbor.yml
+> 执行 `./prepare`
+> 重启容器
 > 在 `harbor` 路径下执行 `docker-compose down` 停止所有容器
 >
 > 执行 ` docker-compose up -d ` 启动所有容器
