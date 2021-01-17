@@ -11,7 +11,7 @@
 	```json
 	{
 	    "insecure-registries": [
-		"10.2.0.46"
+		"10.1.0.46"
 	    ],
 	    "log-opts": {
 	        "max-file": "5",
@@ -43,8 +43,8 @@
 + 上传镜像：
 
 	```bash
-	$ docker tag <IMAGE_NAME>:<VERSION> 10.2.0.46/<PROJECT_NAME>/<IMAGE_NAME>:<VERSION>
-	$ docker push 10.2.0.46/<PROJECT_NAME>/<IMAGE_NAME>:<VERSION>
+	$ docker tag <IMAGE_NAME>:<VERSION> 10.1.0.46/<PROJECT_NAME>/<IMAGE_NAME>:<VERSION>
+	$ docker push 10.1.0.46/<PROJECT_NAME>/<IMAGE_NAME>:<VERSION>
 	```
 
 	由于 harbor 中是按照项目进行管理，所以镜像上传时一定要指定对应的项目名。
@@ -87,4 +87,10 @@
 
 ![IzmSgsTDCZhKPNH](https://i.loli.net/2021/01/10/IzmSgsTDCZhKPNH.png)
 
-更多使用还需探索。
+
+## Q&A
+
+### Q1 如何 pull gcr.io 中的镜像？
+```bash
+$ docker pull 10.1.0.46/dockerhub/mirrorgcrio/<IMAGE>
+```
