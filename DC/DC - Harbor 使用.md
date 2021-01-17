@@ -86,11 +86,40 @@
 `Project` 中点新建，如果是一个镜像缓存项目，需要开启 `Proxy Cache`
 
 ![IzmSgsTDCZhKPNH](https://i.loli.net/2021/01/10/IzmSgsTDCZhKPNH.png)
-
+<br/>
 
 ## Q&A
 
-### Q1 如何 pull gcr.io 中的镜像？
+### Q1: 如何 pull gcr.io 中的镜像？
 ```bash
 $ docker pull 10.1.0.46/dockerhub/mirrorgcrio/<IMAGE>
+```
+
+以拉取 k8s 镜像为例，参见以下脚本实现：
+```bash
+#!/bin/bash
+# 获取要拉取的镜像信息，images.txt是临时文件
+kubeadm config images list > images.txt
+ 
+# 替换成mirrorgcrio的仓库，该仓库国内可用，和k8s.gcr.io的更新时间只差一两天
+sed -i 's@k8s.gcr.io@10.1.0.46/dockerhub/mirrorgcrio@g' images.txt
+ 
+# 拉取各镜像
+cat images.txt | while read line
+do
+    docker pull $line
+done
+ 
+# 修改镜像tag为k8s.gcr.io仓库，并删除mirrorgcrio的tag
+sed -i 's@10.1.0.46/dockerhub/mirrorgcrio/@@g' images.txt
+cat images.txt | while read line
+do
+    docker tag 10.1.0.46/dockerhub/mirrorgcrio/$line k8s.gcr.io/$line
+    docker rmi -f 10.1.0.46/dockerhub/mirrorgcrio/$line
+done
+ 
+# 操作完后显示本地docker镜像
+docker images
+ 
+# 删除临时文件
 ```
