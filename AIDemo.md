@@ -84,11 +84,11 @@ MAINTAINER Dejan wxlongnuaa@163.com
 
 # 代码添加到code文件夹
 
-ADD ./AIDemo/AIinEdge/Code ./AIDemo/AIinEdge/OpenCVConfig ./AIDemo/AIinEdge/Model
+ADD ./AIinEdge /AIinEdge/
 
 # 设置code文件夹是工作目录
 
-WORKDIR ./AIDemo/AIinEdge/Code
+WORKDIR /AIinEdge/Code
 
 # 安装支持
 
