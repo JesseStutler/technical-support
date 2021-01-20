@@ -18,9 +18,7 @@ reason:
 
 似乎ceph cluster的本意是搭建在除master之外的至少三节点集群上，但我们的现有环境是master+另外两节点，所以未指定tolerations的话pod无法被调度到master上，所以要修改cluster.yaml中的placement字段
 
-![image-20210119105859770](/Users/chenzicong/Library/Application Support/typora-user-images/image-20210119105859770.png)
-
-
+https://tva1.sinaimg.cn/large/008eGmZEgy1gmu2ho2nc1j31400jwwj6.jpg
 
 这里all或者指定组件mon，osd，mgr都可以
 
@@ -39,8 +37,6 @@ ceph-volume lvm batch: error: /dev/sda4 is a partition, please pass LVs or raw b
 ```
 
 Ceph:v15.2.8的bug，无法将裸分区作为数据存储地，修改cluster.yaml中的image为v15.2.7就好了
-
-![image-20210119145647595](/Users/chenzicong/Library/Application Support/typora-user-images/image-20210119145647595.png)
 
 
 
