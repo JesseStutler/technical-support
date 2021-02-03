@@ -1,77 +1,160 @@
 # traefik部署记录
 
-version: traefik2.4
+version: traefik v1.7
 
-非官网install traefik部分的helm chart形式部署，部署参照：https://www.qikqiak.com/post/traefik-2.1-101/ 一步步的kubectl create -f xxx.yaml
+部署参照：https://doc.traefik.io/traefik/v1.7/user-guide/kubernetes/
 
-配置文件目录：compute08.dc /root/traefik
+配置文件目录：compute08.dc /root/traefik-v1.7
 
 
 
-## 修改部分
-
-### deployment.yaml
+## step1-rbac.yaml
 
 ```yaml
-apiVersion: apps/v1
-kind: Deployment
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: traefik
+  name: traefik-ingress-controller
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - endpoints
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+    - extensions
+    resources:
+    - ingresses/status
+    verbs:
+    - update
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: traefik-ingress-controller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: traefik-ingress-controller
+subjects:
+- kind: ServiceAccount
+  name: traefik-ingress-controller
+  namespace: kube-system
+        
+```
+
+## step-2 daemonset.yaml
+
+```yaml
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: traefik-ingress-controller
+  namespace: kube-system
+---
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: traefik-ingress-controller
   namespace: kube-system
   labels:
-    app: traefik
+    k8s-app: traefik-ingress-lb
 spec:
   selector:
     matchLabels:
-      app: traefik
+      k8s-app: traefik-ingress-lb
+      name: traefik-ingress-lb
   template:
     metadata:
       labels:
-        app: traefik
+        k8s-app: traefik-ingress-lb
+        name: traefik-ingress-lb
     spec:
       serviceAccountName: traefik-ingress-controller
+      terminationGracePeriodSeconds: 60
       containers:
-      - image: traefik:2.4
-        name: traefik
+      - image: traefik:v1.7
+        name: traefik-ingress-lb
         ports:
-        - name: web
+        - name: http
           containerPort: 80
           hostPort: 80
-        - name: websecure
-          containerPort: 443
-          hostPort: 443
+        - name: admin
+          containerPort: 8080
+          hostPort: 8080
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+            add:
+            - NET_BIND_SERVICE
         args:
-        - --log.level=INFO
-        - --accesslog
-        - --entryPoints.web.address=:80
-        - --entryPoints.websecure.address=:443
-        - --api=true
-        - --api.dashboard=true
-        - --providers.kubernetescrd
-        
-      
+        - --api
+        - --kubernetes
+        - --logLevel=INFO
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: traefik-ingress-service
+  namespace: kube-system
+spec:
+  selector:
+    k8s-app: traefik-ingress-lb
+  ports:
+    - protocol: TCP
+      port: 80
+      name: web
+    - protocol: TCP
+      port: 8080
+      name: admin
 ```
 
-
-
-### dashboard.yaml
+## step-3 web-ui.yaml(dashboard)
 
 ```yaml
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+apiVersion: v1
+kind: Service
 metadata:
   name: traefik-dashboard
   namespace: kube-system
 spec:
-  entryPoints:
-  - web
-  routes:
-  - match: Host(`traefik.dc`)
-    kind: Rule
-    services:
-    - name: api@internal
-      kind: TraefikService
-
-
+  type: LoadBalancer
+  selector:
+    k8s-app: traefik-ingress-lb
+  ports:
+  - name: web
+    port: 80
+    targetPort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: traefik-dashboard
+  namespace: kube-system
+spec:
+  rules:
+  - host: traefik.dc
+    http:
+      paths:
+      - path: /dashboard
+        backend:
+          serviceName: traefik-dashboard
+          servicePort: web
 ```
 
