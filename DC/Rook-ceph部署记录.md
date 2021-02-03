@@ -4,9 +4,9 @@
 
 https://rook.github.io/docs/rook/master/ceph-quickstart.html
 
-节点：compute08.dc(master)，compute09.dc，compute10.dc
+ceph-operator指定调度到compute10.dc上
 
-设备：裸分区存储，/dev/sda4(compute08.dc)，/dev/sda4(compute09.dc)，加起来大约3个T
+存储节点:compute08.dc，compute18，compute19，共3.5TB
 
 ## trouble-shooting
 
